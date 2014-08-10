@@ -1,0 +1,80 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Typhoon</title>
+    <style>
+      body {
+        background: rgb(238, 238, 238);
+        padding: 0;
+        margin: 0;
+        font-family: sans-serif;
+      }
+      
+      /* d3 */
+      #map-svg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 1;
+      }
+
+      .map-asia {
+        fill: rgb(230, 230, 230);
+        stroke: rgb(240, 240, 240);
+      }
+
+      /* Chart */
+      #chart-svg {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+      }
+
+      .chart-current {
+        fill: #f00;
+      }
+
+      .bar-base {
+        stroke: #000;
+        stroke-width: 0.3;
+        fill: none;
+      }
+
+      .bar-typhoon {
+        stroke: none;
+        fill: #000;
+      }
+
+      /* Processing.js */
+      .p5-canvas {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 2;
+        outline: none;
+      }
+
+      /* Time display */
+      .time-display {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        font-size: 39px;
+        font-weight: bold;
+        line-height: 1em;
+        padding: 0;
+        margin: 0;
+        color: rgb(200, 200, 200);
+        z-index: 3;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="container">
+    </div>
+
+    <script src="/js/lib.js"></script>
+    <script src="/js/app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,23 @@
+{
+  "name": "taifu",
+  "version": "0.0.0",
+  "description": "データは http://www.naturalearthdata.com/ から取得する。 今回使うのは units と populated places。",
+  "main": "index.js",
+  "dependencies": {
+    "d3": "^3.4.11",
+    "d3-transform": "^1.0.3",
+    "topojson": "^1.6.15",
+    "processing-js": "git://github.com/processing-js/processing-js.git#v1.4.8"
+  },
+  "devDependencies": {
+    "browserify": "^5.9.1",
+    "gulp": "^3.8.7",
+    "gulp-concat": "^2.3.4",
+    "gulp-connect": "^2.0.6",
+    "gulp-shell": "^0.2.9",
+    "open": "0.0.5",
+    "vinyl-source-stream": "^0.1.1"
+  },
+  "author": "Shuhei Kagawa",
+  "license": "ISC"
+}
