@@ -10,6 +10,19 @@
         margin: 0;
         font-family: sans-serif;
       }
+
+      .title {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        font-size: 39px;
+        font-weight: bold;
+        line-height: 1em;
+        padding: 0;
+        margin: 0;
+        color: #000;
+        z-index: 3;
+      }
       
       /* d3 */
       #map-svg {
@@ -27,8 +40,9 @@
       /* Chart */
       #chart-svg {
         position: absolute;
-        top: 20px;
+        top: 70px;
         right: 20px;
+        z-index: 4;
       }
 
       .chart-current {
@@ -44,6 +58,7 @@
       .bar-typhoon {
         stroke: none;
         fill: #000;
+        cursor: pointer;
       }
 
       /* Processing.js */
@@ -59,19 +74,21 @@
       .time-display {
         position: absolute;
         top: 20px;
-        left: 20px;
+        right: 20px;
         font-size: 39px;
         font-weight: bold;
         line-height: 1em;
         padding: 0;
         margin: 0;
-        color: rgb(200, 200, 200);
+        color: #000;
         z-index: 3;
+        width: 500px;
       }
     </style>
   </head>
   <body>
     <div id="container">
+      <h1 class="title">Typhoons</h1>
     </div>
 
     <script src="/js/lib.js"></script>

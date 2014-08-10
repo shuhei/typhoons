@@ -50,7 +50,8 @@ function initChart(startYear, typhoonsByYear) {
     .attr('class', 'bar-typhoon')
     .attr('width', function(d) { return timeScale(d.endTime - d.startTime); })
     .attr('height', ITEM_HEIGHT)
-    .attr('x', function(d) { return timeScale(d.startTime - new Date(d.year, 0, 1)); });
+    .attr('x', function(d) { return timeScale(d.startTime - new Date(d.year, 0, 1)); })
+    .on('click', function(d) { console.log(d3.event, arguments, new Date(d.startTime), new Date(d.endTime)); });
 
   var current = svg.append('rect')
     .datum(new Date(startYear, 0, 1))
