@@ -1,13 +1,14 @@
 function initChart(startYear, typhoonsByYear) {
   var CHART_WIDTH = 500;
   var CHART_HEIGHT = 800;
+  var LABEL_WIDTH = 50;
 
   var ITEM_HEIGHT = 10;
   var ROW_MARGIN = 20;
 
   var svg = d3.select('body').append('svg')
     .attr('id', 'chart-svg')
-    .attr('width', CHART_WIDTH)
+    .attr('width', CHART_WIDTH + LABEL_WIDTH)
     .attr('height', CHART_HEIGHT);
 
   function typhoonsToShow() {
@@ -27,7 +28,7 @@ function initChart(startYear, typhoonsByYear) {
   var typhoons = typhoonsToShow();
 
   var groupTransform = d3.svg.transform()
-    .translate(function(d, i) { return [0, ITEM_HEIGHT + i * (ITEM_HEIGHT + ROW_MARGIN)]; });
+    .translate(function(d, i) { return [LABEL_WIDTH, ITEM_HEIGHT + i * (ITEM_HEIGHT + ROW_MARGIN)]; });
 
   var bars = svg.selectAll('g.bar')
     .data(typhoons)
@@ -39,6 +40,12 @@ function initChart(startYear, typhoonsByYear) {
     .x(function(d) { return d.x; })
     .y(function(d) { return d.y; })
     .interpolate('linear');
+
+  bars.append('text')
+    .attr('class', 'bar-title')
+    .attr('x', -8)
+    .attr('y', 9)
+    .text(function(d) { return d[0].year; });
 
   bars.append('path')
     .attr('class', 'bar-base')
@@ -62,7 +69,7 @@ function initChart(startYear, typhoonsByYear) {
 
   function positionCurrent(current) {
     current
-      .attr('x', function(d) { return timeScale(d - new Date(d.getFullYear(), 0, 1)); })
+      .attr('x', function(d) { return LABEL_WIDTH + timeScale(d - new Date(d.getFullYear(), 0, 1)); })
       .attr('y', function(d) { return (d.getFullYear() - startYear) * (ITEM_HEIGHT + ROW_MARGIN) + ITEM_HEIGHT / 2; });
   }
 
