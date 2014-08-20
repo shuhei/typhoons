@@ -53,7 +53,12 @@ gulp.task('js', function() {
 
 // Concat JS libraries.
 gulp.task('lib', function() {
-  var libs = 'node_modules/{d3/d3,d3-transform/src/d3-transform,topojson/topojson,Processing.js/processing}.js';
+  var libs = [
+    'node_modules/d3/d3.js',
+    'node_modules/d3-transform/src/d3-transform.js',
+    'node_modules/topojson/topojson.js',
+    'node_modules/Processing.js/processing.js'
+  ];
   return gulp.src(libs)
     .pipe(concat('lib.js'))
     .pipe(gulp.dest('public/js'))

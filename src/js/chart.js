@@ -6,6 +6,8 @@ function initChart(startYear, typhoonsByYear) {
   var ITEM_HEIGHT = 10;
   var ROW_MARGIN = 20;
 
+  var callbacks = {};
+
   var svg = d3.select('body').append('svg')
     .attr('id', 'chart-svg')
     .attr('width', CHART_WIDTH + LABEL_WIDTH)
@@ -58,7 +60,14 @@ function initChart(startYear, typhoonsByYear) {
     .attr('width', function(d) { return timeScale(d.endTime - d.startTime); })
     .attr('height', ITEM_HEIGHT)
     .attr('x', function(d) { return timeScale(d.startTime - new Date(d.year, 0, 1)); })
-    .on('click', function(d) { console.log(d3.event, arguments, new Date(d.startTime), new Date(d.endTime)); });
+    .on('click', function(d) {
+      console.log(d3.event, arguments, new Date(d.startTime), new Date(d.endTime));
+      var clickedTime = new Date(d.startTime);
+      var event = new CustomEvent('timeSelected', { detail: clickedTime });
+      (callbacks['timeSelected'] || []).forEach(function(callback) {
+        callback(event);
+      });
+    });
 
   var current = svg.append('rect')
     .datum(new Date(startYear, 0, 1))
@@ -78,7 +87,12 @@ function initChart(startYear, typhoonsByYear) {
   }
 
   return {
-    updateCurrentTime: updateCurrentTime
+    updateCurrentTime: updateCurrentTime,
+    addEventListener: function(eventName, callback) {
+      var cbs = callbacks[eventName] || [];
+      cbs.push(callback);
+      callbacks[eventName] = cbs;
+    }
   };
 }
 

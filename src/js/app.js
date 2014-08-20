@@ -1,6 +1,7 @@
 var initChart = require('./chart');
 var initCanvas = require('./canvas');
 var utils = require('./utils');
+var Clock = require('./clock');
 
 function initMap(width, height, projection) {
   var svg = d3.select('body').append('svg')
@@ -28,17 +29,20 @@ function addApp(startYear, typhoonsByYear) {
   // Map
   initMap(width, height, projection);
 
+  // Clock
+  var clock = new Clock(new Date(startYear, 5, 1), typhoonsByYear);
+
   // Chart
   var chart = initChart(startYear, typhoonsByYear);
 
   // Canvas
-  var canvas = document.createElement('canvas');
-  canvas.className = 'p5-canvas';
-  canvas.width = width;
-  canvas.height = height;
-  document.body.appendChild(canvas);
+  var canvasElement = document.createElement('canvas');
+  canvasElement.className = 'p5-canvas';
+  canvasElement.width = width;
+  canvasElement.height = height;
+  document.body.appendChild(canvasElement);
 
-  initCanvas(canvas, startYear, typhoonsByYear, projection);
+  var canvas = initCanvas(canvasElement, typhoonsByYear, projection);
 
   // Time display
   var timeDisplay = document.createElement('p');
@@ -46,10 +50,17 @@ function addApp(startYear, typhoonsByYear) {
   document.body.appendChild(timeDisplay);
 
   // Update time display and chart.
-  canvas.addEventListener('timeChange', function(e) {
-    timeDisplay.innerText = utils.dateToStr(e.detail);
-    chart.updateCurrentTime(e.detail);
+  clock.addListener(function(time) {
+    timeDisplay.innerText = utils.dateToStr(time);
+    chart.updateCurrentTime(time);
+    canvas.updateCurrentTime(time);
   });
+
+  chart.addEventListener('timeSelected', function(e) {
+    clock.update(e.detail);
+  });
+
+  clock.start();
 }
 
 function prepareData(typhoons) {
