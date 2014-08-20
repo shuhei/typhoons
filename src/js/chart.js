@@ -1,12 +1,15 @@
+var EventEmitter = require('events').EventEmitter;
+
 function initChart(startYear, typhoonsByYear) {
+  var ee = new EventEmitter();
+  ee.updateCurrentTime = updateCurrentTime;
+
   var CHART_WIDTH = 500;
   var CHART_HEIGHT = 800;
   var LABEL_WIDTH = 50;
 
   var ITEM_HEIGHT = 10;
   var ROW_MARGIN = 20;
-
-  var callbacks = {};
 
   var svg = d3.select('body').append('svg')
     .attr('id', 'chart-svg')
@@ -60,14 +63,7 @@ function initChart(startYear, typhoonsByYear) {
     .attr('width', function(d) { return timeScale(d.endTime - d.startTime); })
     .attr('height', ITEM_HEIGHT)
     .attr('x', function(d) { return timeScale(d.startTime - new Date(d.year, 0, 1)); })
-    .on('click', function(d) {
-      console.log(d3.event, arguments, new Date(d.startTime), new Date(d.endTime));
-      var clickedTime = new Date(d.startTime);
-      var event = new CustomEvent('timeSelected', { detail: clickedTime });
-      (callbacks['timeSelected'] || []).forEach(function(callback) {
-        callback(event);
-      });
-    });
+    .on('click', function(d) { ee.emit('timeSelected', new Date(d.startTime)); });
 
   var current = svg.append('rect')
     .datum(new Date(startYear, 0, 1))
@@ -86,14 +82,7 @@ function initChart(startYear, typhoonsByYear) {
     current.datum(currentTime).call(positionCurrent);
   }
 
-  return {
-    updateCurrentTime: updateCurrentTime,
-    addEventListener: function(eventName, callback) {
-      var cbs = callbacks[eventName] || [];
-      cbs.push(callback);
-      callbacks[eventName] = cbs;
-    }
-  };
+  return ee;
 }
 
 module.exports = initChart;

@@ -1,9 +1,13 @@
+var EventEmitter = require('events').EventEmitter;
+var util = require('util');
+
 function Clock(time, typhoonsByYear) {
   this.typhoonsByYear = typhoonsByYear;
   this.time = time;
-  this.callbacks = [];
   this.frameRate = 60;
 }
+
+util.inherits(Clock, EventEmitter);
 
 Clock.prototype.start = function() {
   this.intervalID = setInterval(this.tick.bind(this), 1000 / this.frameRate);
@@ -26,19 +30,9 @@ Clock.prototype.tick = function() {
   this.update(nextTime);
 };
 
-Clock.prototype.addListener = function(callback) {
-  this.callbacks.push(callback);
-};
-
-Clock.prototype._notify = function() {
-  this.callbacks.forEach(function(callback) {
-    callback(this.time);
-  }, this);
-};
-
 Clock.prototype.update = function(time) {
   this.time = new Date(time);
-  this._notify();
+  this.emit('change', this.time);
 };
 
 Clock.prototype._findNext = function(time) {

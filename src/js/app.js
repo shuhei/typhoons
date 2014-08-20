@@ -50,14 +50,14 @@ function addApp(startYear, typhoonsByYear) {
   document.body.appendChild(timeDisplay);
 
   // Update time display and chart.
-  clock.addListener(function(time) {
+  clock.on('change', function(time) {
     timeDisplay.innerText = utils.dateToStr(time);
     chart.updateCurrentTime(time);
     canvas.updateCurrentTime(time);
   });
 
-  chart.addEventListener('timeSelected', function(e) {
-    clock.update(e.detail);
+  chart.on('timeSelected', function(time) {
+    clock.update(time);
   });
 
   clock.start();
