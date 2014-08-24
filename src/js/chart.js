@@ -17,10 +17,10 @@ function initChart(startYear, typhoonsByYear) {
     .attr('height', CHART_HEIGHT);
 
   function typhoonsToShow() {
-    var typhoons = Object.keys(typhoonsByYear).filter(function(year) {
+    var years = Object.keys(typhoonsByYear).filter(function(year) {
       return year >= startYear;
     });
-    return typhoons.map(function(year) {
+    return years.map(function(year) {
       return typhoonsByYear[year];
     });
   }
