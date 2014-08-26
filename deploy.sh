@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 set -e
 
+rm -rf _deploy
+git clone -b gh-pages --single-branch git@github.com:shuhei/typhoons.git _deploy
+
 gulp clean
 gulp build
 pushd _deploy
