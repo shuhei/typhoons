@@ -5,6 +5,7 @@ var shell = require('gulp-shell');
 var open = require('open');
 var browserify = require('browserify');
 var source = require('vinyl-source-stream');
+var rimraf = require('rimraf');
 
 var PORT = 3000;
 
@@ -63,6 +64,10 @@ gulp.task('lib', function() {
     .pipe(concat('lib.js'))
     .pipe(gulp.dest('public/js'))
     .pipe(connect.reload());
+});
+
+gulp.task('clean', function(cb) {
+  rimraf('public', cb);
 });
 
 gulp.task('watch', function() {
