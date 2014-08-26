@@ -11,7 +11,7 @@ function initMap(width, height, projection) {
 
   // Draw map with SVG.
   var pathProjection = d3.geo.path().projection(projection);
-  d3.json('/data/east-asia.json', function (error, asia) {
+  d3.json('./data/east-asia.json', function (error, asia) {
     svg.append('path')
       .datum(topojson.feature(asia, asia.objects.subunits))
       .attr('class', 'map-asia')
