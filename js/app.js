@@ -85,7 +85,7 @@ function prepareData(typhoons) {
   return typhoonsByYear;
 }
 
-d3.json('/data/typhoons.json', function(typhoons) {
+d3.json('./data/typhoons.json', function(typhoons) {
   var typhoonsByYear = prepareData(typhoons);
   addApp(2000, typhoonsByYear);
 });
