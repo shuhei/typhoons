@@ -34,7 +34,7 @@ gulp.task('data', ['map'], function() {
 
 // Copy HTML files.
 gulp.task('html', function() {
-  return gulp.src('src/*.html')
+  return gulp.src(['src/*.html', 'src/CNAME'])
     .pipe(gulp.dest('public'))
     .pipe(connect.reload());
 });
