@@ -19,7 +19,7 @@ deploy:
     - script:
         name: deploy files
         code: |
-          test -d "_deploy" && rm -rf _deploy
+          test -d "_deploy" && rm -rf _deploy; echo 'Deleted _deploy'
           git clone -b gh-pages --single-branch https://$GH_TOKEN@github.com/shuhei/typhoons.git _deploy
           pushd _deploy
           git rm -rf .
