@@ -1,0 +1,29 @@
+box: wercker/nodejs
+build:
+  steps:
+    - script:
+        name: install gdal
+        code: |
+          sudo apt-get install gdal-bin
+
+    - npm-install
+
+    - script:
+        name: build with gulp
+        code: |
+          ./node_modules/.bin/gulp clean
+          ./node_modules/.bin/gulp build
+deploy:
+  steps:
+    - script:
+        name: deploy files
+        code: |
+          test -d "_deploy" && rm -rf _deploy
+          git clone -b gh-pages --single-branch https://$GH_TOKEN@github.com/shuhei/typhoons.git _deploy
+          pushd _deploy
+          git rm -rf .
+          cp -r ../public/* ./
+          git add -A
+          git commit -m "Update at `date`."
+          git push origin gh-pages
+          popd
