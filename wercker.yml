@@ -4,7 +4,7 @@ build:
     - script:
         name: install gdal
         code: |
-          apt-cache search gdal
+          sudo apt-get update
           sudo apt-get install gdal-bin
 
     - npm-install
