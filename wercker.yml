@@ -19,9 +19,11 @@ deploy:
     - script:
         name: deploy files
         code: |
-          test -d "_deploy" && rm -rf _deploy; echo 'Deleted _deploy'
+          test -d "_deploy" && rm -rf _deploy; echo "Deleted _deploy"
           git clone -b gh-pages https://$GH_TOKEN@github.com/shuhei/typhoons.git _deploy
           pushd _deploy
+          git config user.email "pleasemailus@wercker.com"
+          git config user.name "werckerbot"
           git rm -rf .
           cp -r ../public/* ./
           git add -A
