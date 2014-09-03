@@ -62,7 +62,7 @@ function initChart(startYear, typhoonsByYear) {
     .attr('class', 'bar-typhoon')
     .attr('width', function(d) { return timeScale(d.endTime - d.startTime); })
     .attr('height', ITEM_HEIGHT)
-    .attr('x', function(d) { return timeScale(d.startTime - new Date(d.year, 0, 1)); })
+    .attr('x', function(d) { return timeScale(d.startTime - new Date(d.year, 0, 1).getTime()); })
     .on('click', function(d) { ee.emit('timeSelected', new Date(d.startTime)); });
 
   var current = svg.append('rect')

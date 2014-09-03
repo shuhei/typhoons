@@ -30,7 +30,7 @@ function addApp(startYear, typhoonsByYear) {
   initMap(width, height, projection);
 
   // Clock
-  var clock = new Clock(new Date(startYear, 5, 1), typhoonsByYear);
+  var clock = new Clock(new Date(startYear, 0, 1), typhoonsByYear);
 
   // Chart
   var chart = initChart(startYear, typhoonsByYear);
