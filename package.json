@@ -2,6 +2,9 @@
   "name": "taifu",
   "version": "0.0.0",
   "description": "データは http://www.naturalearthdata.com/ から取得する。 今回使うのは units と populated places。",
+  "scripts": {
+    "postinstall": "rm -rf node_modules/Processing.js/test"
+  },
   "main": "index.js",
   "dependencies": {
     "d3": "^3.4.11",
