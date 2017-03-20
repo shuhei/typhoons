@@ -31,7 +31,7 @@ function addApp(startYear, typhoonsByYear) {
   initMap(width, height, projection);
 
   // Clock
-  var clock = new Clock(new Date(startYear, 5, 1), typhoonsByYear);
+  var clock = new Clock(new Date(startYear, 0, 1), typhoonsByYear);
 
   // Chart
   var chart = initChart(startYear, typhoonsByYear);
@@ -150,10 +150,8 @@ EventEmitter.prototype.emit = function(type) {
       er = arguments[1];
       if (er instanceof Error) {
         throw er; // Unhandled 'error' event
-      } else {
-        throw TypeError('Uncaught, unspecified "error" event.');
       }
-      return false;
+      throw TypeError('Uncaught, unspecified "error" event.');
     }
   }
 
@@ -396,31 +394,6 @@ function isUndefined(arg) {
 }
 
 },{}],3:[function(require,module,exports){
-if (typeof Object.create === 'function') {
-  // implementation from standard node.js 'util' module
-  module.exports = function inherits(ctor, superCtor) {
-    ctor.super_ = superCtor
-    ctor.prototype = Object.create(superCtor.prototype, {
-      constructor: {
-        value: ctor,
-        enumerable: false,
-        writable: true,
-        configurable: true
-      }
-    });
-  };
-} else {
-  // old school shim for old browsers
-  module.exports = function inherits(ctor, superCtor) {
-    ctor.super_ = superCtor
-    var TempCtor = function () {}
-    TempCtor.prototype = superCtor.prototype
-    ctor.prototype = new TempCtor()
-    ctor.prototype.constructor = ctor
-  }
-}
-
-},{}],4:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -484,6 +457,31 @@ process.cwd = function () { return '/' };
 process.chdir = function (dir) {
     throw new Error('process.chdir is not supported');
 };
+
+},{}],4:[function(require,module,exports){
+if (typeof Object.create === 'function') {
+  // implementation from standard node.js 'util' module
+  module.exports = function inherits(ctor, superCtor) {
+    ctor.super_ = superCtor
+    ctor.prototype = Object.create(superCtor.prototype, {
+      constructor: {
+        value: ctor,
+        enumerable: false,
+        writable: true,
+        configurable: true
+      }
+    });
+  };
+} else {
+  // old school shim for old browsers
+  module.exports = function inherits(ctor, superCtor) {
+    ctor.super_ = superCtor
+    var TempCtor = function () {}
+    TempCtor.prototype = superCtor.prototype
+    ctor.prototype = new TempCtor()
+    ctor.prototype.constructor = ctor
+  }
+}
 
 },{}],5:[function(require,module,exports){
 module.exports = function isBuffer(arg) {
@@ -1082,7 +1080,7 @@ function hasOwnProperty(obj, prop) {
 }
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./support/isBuffer":5,"_process":4,"inherits":3}],7:[function(require,module,exports){
+},{"./support/isBuffer":5,"_process":3,"inherits":4}],7:[function(require,module,exports){
 function initCanvas(canvas, typhoonsByYear, projection) {
   var width = parseInt(canvas.width, 10);
   var height = parseInt(canvas.height, 10);
@@ -1221,7 +1219,7 @@ function initChart(startYear, typhoonsByYear) {
     .attr('class', 'bar-typhoon')
     .attr('width', function(d) { return timeScale(d.endTime - d.startTime); })
     .attr('height', ITEM_HEIGHT)
-    .attr('x', function(d) { return timeScale(d.startTime - new Date(d.year, 0, 1)); })
+    .attr('x', function(d) { return timeScale(d.startTime - new Date(d.year, 0, 1).getTime()); })
     .on('click', function(d) { ee.emit('timeSelected', new Date(d.startTime)); });
 
   var current = svg.append('rect')
@@ -1337,7 +1335,19 @@ function dateToStr(date) {
 }
 
 function strToTime(str) {
-  return Date.parse(str);
+  // Date.parse does not work for 'yyyy-mm-dd HH:MM:SS' on Firefox.
+  var components = str.split(' ');
+  var dateFields = components[0].split('-');
+  var timeFields = components[1].split(':');
+
+  var year = parseInt(dateFields[0], 10);
+  var month = parseInt(dateFields[1], 10);
+  var day = parseInt(dateFields[2], 10);
+  var hours = parseInt(timeFields[0], 10);
+  var minutes = parseInt(timeFields[1], 10);
+  var seconds = parseInt(timeFields[2], 10);
+
+  return new Date(year, month - 1, day, hours, minutes, seconds).getTime();
 }
 
 module.exports = {
