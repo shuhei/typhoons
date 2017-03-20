@@ -1,3 +1,4 @@
+var topojson = require('topojson');
 var initChart = require('./chart');
 var initCanvas = require('./canvas');
 var utils = require('./utils');

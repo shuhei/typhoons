@@ -9,8 +9,8 @@
   "dependencies": {
     "d3": "^3.4.11",
     "d3-transform": "^1.0.3",
-    "topojson": "^1.6.15",
-    "processing-js": "git://github.com/processing-js/processing-js.git#v1.4.8"
+    "processing-js": "^1.6.6",
+    "topojson": "^1.6.15"
   },
   "devDependencies": {
     "browserify": "^5.9.1",

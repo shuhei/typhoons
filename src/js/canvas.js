@@ -1,3 +1,5 @@
+require('processing-js');
+
 function initCanvas(canvas, typhoonsByYear, projection) {
   var width = parseInt(canvas.width, 10);
   var height = parseInt(canvas.height, 10);
